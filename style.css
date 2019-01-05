@@ -20,6 +20,10 @@ img {
 	max-width: 100%;
 }
 
+textarea {
+	resize: none;
+}
+
 .site-main .comment-navigation, .site-main
 .posts-navigation, .site-main
 .post-navigation {
