@@ -51,7 +51,6 @@ add_action( 'wp_head', 'bootstrapwp_pingback_header' );
  * Convert HSL to HEX colors
  */
 function bootstrapwp_hsl_hex( $h, $s, $l, $to_hex = true ) {
-
 	$h /= 360;
 	$s /= 100;
 	$l /= 100;
@@ -116,13 +115,11 @@ function bootstrapwp_hsl_hex( $h, $s, $l, $to_hex = true ) {
 	$b = round( $b * 255, 0 );
 
 	if ( $to_hex ) {
-
 		$r = ( $r < 15 ) ? '0' . dechex( $r ) : dechex( $r );
 		$g = ( $g < 15 ) ? '0' . dechex( $g ) : dechex( $g );
 		$b = ( $b < 15 ) ? '0' . dechex( $b ) : dechex( $b );
 
 		return "#$r$g$b";
-
 	}
 
 	return "rgb($r, $g, $b)";
