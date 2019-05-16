@@ -4,4 +4,4 @@ Clean blog is a carefully styled Bootstrap blog theme that is perfect for person
 
 It is by origin (a HTML theme)[https://startbootstrap.com/themes/clean-blog/], ported for WordPress use.
 
-!(Screenshot)[https://github.com/danielyewright/cleanblogWP/blob/master/screenshot.png]
+![Screenshot](https://github.com/danielyewright/cleanblogWP/blob/master/screenshot.png)
