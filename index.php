@@ -9,7 +9,7 @@
  *
  * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
  *
- * @package Bootstrap_WP
+ * @package Clean_Blog_WP
  */
 
 get_header();
@@ -42,7 +42,16 @@ get_header();
 
 			endwhile;
 
-			the_posts_navigation();
+			// the_posts_navigation();
+			?>
+
+			<div class="clearfix">
+				<?php pagination_nav(); ?>
+			</div>
+			
+			<br>
+
+			<?php
 
 		else :
 

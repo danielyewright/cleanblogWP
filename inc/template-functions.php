@@ -2,7 +2,7 @@
 /**
  * Functions which enhance the theme by hooking into WordPress
  *
- * @package Bootstrap_WP
+ * @package Clean_Blog_WP
  * @since 1.0.0
  */
 
@@ -12,7 +12,7 @@
  * @param array $classes Classes for the body element.
  * @return array
  */
-function bootstrapwp_body_classes( $classes ) {
+function cleanblog_body_classes( $classes ) {
 	// Adds a class of hfeed to non-singular pages.
 	if ( ! is_singular() ) {
 		$classes[] = 'hfeed';
@@ -25,32 +25,32 @@ function bootstrapwp_body_classes( $classes ) {
 
 	return $classes;
 }
-add_filter( 'body_class', 'bootstrapwp_body_classes' );
+add_filter( 'body_class', 'cleanblog_body_classes' );
 
 /**
  * Adds custom class to the array of posts classes.
  */
-function bootstrapwp_post_classes( $classes, $class, $post_id ) {
+function cleanblog_post_classes( $classes, $class, $post_id ) {
 	$classes[] = 'entry';
 
 	return $classes;
 }
-add_filter( 'post_class', 'bootstrapwp_post_classes', 10, 3 );
+add_filter( 'post_class', 'cleanblog_post_classes', 10, 3 );
 
 /**
  * Add a pingback url auto-discovery header for single posts, pages, or attachments.
  */
-function bootstrapwp_pingback_header() {
+function cleanblog_pingback_header() {
 	if ( is_singular() && pings_open() ) {
 		printf( '<link rel="pingback" href="%s">', esc_url( get_bloginfo( 'pingback_url' ) ) );
 	}
 }
-add_action( 'wp_head', 'bootstrapwp_pingback_header' );
+add_action( 'wp_head', 'cleanblog_pingback_header' );
 
 /**
  * Convert HSL to HEX colors
  */
-function bootstrapwp_hsl_hex( $h, $s, $l, $to_hex = true ) {
+function cleanblog_hsl_hex( $h, $s, $l, $to_hex = true ) {
 	$h /= 360;
 	$s /= 100;
 	$l /= 100;
