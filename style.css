@@ -17,6 +17,17 @@ Clean Blog WP is based on Underscores https://underscores.me/, (C) 2012-2017 Aut
 Underscores is distributed under the terms of the GNU GPL v2 or later.
 */
 
+body.admin-bar {
+	/* margin-top: 32px; */
+	position: relative;
+	top: 0;
+}
+
+body.admin-bar #mainNav.is-fixed {
+	position: fixed;
+	top: -35px !important;
+}
+
 textarea {
 	resize: none;
 }
@@ -291,6 +302,10 @@ img {
 	color: #212529;
 }
 
+.wp-caption-text {
+
+}
+
 /*--------------------------------------------------------------
 ## Galleries
 --------------------------------------------------------------*/
@@ -465,7 +480,7 @@ img::-moz-selection {
 	}
 	#mainNav .navbar-brand:focus,
 	#mainNav .navbar-brand:hover {
-		color: rgba(255, 255, 255, 0.8);
+		color: rgba(255, 255, 255, 0.8) !important;
 	}
 	#mainNav .navbar-nav > li.nav-item > a {
 		padding: 10px 20px;
@@ -473,7 +488,7 @@ img::-moz-selection {
 	}
 	#mainNav .navbar-nav > li.nav-item > a:focus,
 	#mainNav .navbar-nav > li.nav-item > a:hover {
-		color: rgba(255, 255, 255, 0.8);
+		color: rgba(255, 255, 255, 0.8) !important;
 	}
 }
 

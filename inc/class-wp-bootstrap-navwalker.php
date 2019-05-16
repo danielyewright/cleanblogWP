@@ -20,13 +20,13 @@
 */
 
 /* Check if Class Exists. */
-if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
+if ( ! class_exists( 'Cleanblog_WP_Bootstrap_Navwalker' ) ) {
 	/**
 	 * WP_Bootstrap_Navwalker class.
 	 *
 	 * @extends Walker_Nav_Menu
 	 */
-	class WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
+	class Cleanblog_WP_Bootstrap_Navwalker extends Walker_Nav_Menu {
 
 		/**
 		 * Starts the list before the elements are added.
@@ -59,7 +59,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			 * @param stdClass $args    An object of `wp_nav_menu()` arguments.
 			 * @param int      $depth   Depth of menu item. Used for padding.
 			 */
-			$class_names = join( ' ', apply_filters( 'nav_menu_submenu_css_class', $classes, $args, $depth ) );
+			$class_names = join( ' ', apply_filters( 'cleanblog_nav_menu_submenu_css_class', $classes, $args, $depth ) );
 			$class_names = $class_names ? ' class="' . esc_attr( $class_names ) . '"' : '';
 			/**
 			 * The `.dropdown-menu` container needs to have a labelledby
@@ -130,7 +130,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			 * @param WP_Post  $item  Menu item data object.
 			 * @param int      $depth Depth of menu item. Used for padding.
 			 */
-			$args = apply_filters( 'nav_menu_item_args', $args, $item, $depth );
+			$args = apply_filters( 'cleanblog_nav_menu_item_args', $args, $item, $depth );
 
 			// Add .dropdown or .active classes where they are needed.
 			if ( isset( $args->has_children ) && $args->has_children ) {
@@ -145,7 +145,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			$classes[] = 'nav-item';
 
 			// Allow filtering the classes.
-			$classes = apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth );
+			$classes = apply_filters( 'cleanblog_nav_menu_css_class', array_filter( $classes ), $item, $args, $depth );
 
 			// Form a string of classes in format: class="class_names".
 			$class_names = join( ' ', $classes );
@@ -162,7 +162,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			 * @param stdClass $args    An object of wp_nav_menu() arguments.
 			 * @param int      $depth   Depth of menu item. Used for padding.
 			 */
-			$id = apply_filters( 'nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth );
+			$id = apply_filters( 'cleanblog_nav_menu_item_id', 'menu-item-' . $item->ID, $item, $args, $depth );
 			$id = $id ? ' id="' . esc_attr( $id ) . '"' : '';
 
 			$output .= $indent . '<li itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement"' . $id . $class_names . '>';
@@ -201,7 +201,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			// update atts of this item based on any custom linkmod classes.
 			$atts = self::update_atts_for_linkmod_type( $atts, $linkmod_classes );
 			// Allow filtering of the $atts array before using it.
-			$atts = apply_filters( 'nav_menu_link_attributes', $atts, $item, $args, $depth );
+			$atts = apply_filters( 'cleanblog_nav_menu_link_attributes', $atts, $item, $args, $depth );
 
 			// Build a string of html containing all the atts for the item.
 			$attributes = '';
@@ -245,7 +245,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			}
 
 			/** This filter is documented in wp-includes/post-template.php */
-			$title = apply_filters( 'the_title', $item->title, $item->ID );
+			$title = apply_filters( 'cleanblog_the_title', $item->title, $item->ID );
 
 			/**
 			 * Filters a menu item's title.
@@ -257,7 +257,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			 * @param stdClass $args  An object of wp_nav_menu() arguments.
 			 * @param int      $depth Depth of menu item. Used for padding.
 			 */
-			$title = apply_filters( 'nav_menu_item_title', $title, $item, $args, $depth );
+			$title = apply_filters( 'cleanblog_nav_menu_item_title', $title, $item, $args, $depth );
 
 			/**
 			 * If the .sr-only class was set apply to the nav items text only.
@@ -289,7 +289,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 			/**
 			 * END appending the internal item contents to the output.
 			 */
-			$output .= apply_filters( 'walker_nav_menu_start_el', $item_output, $item, $depth, $args );
+			$output .= apply_filters( 'cleanblog_walker_nav_menu_start_el', $item_output, $item, $depth, $args );
 
 		}
 
@@ -363,7 +363,7 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 				if ( $menu_class ) {
 					$fallback_output .= ' class="' . esc_attr( $menu_class ) . '"'; }
 				$fallback_output .= '>';
-				$fallback_output .= '<li><a class="nav-link" href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" title="' . esc_attr__( 'Add a menu', 'wp-bootstrap-navwalker' ) . '">' . esc_html__( 'Add a menu', 'wp-bootstrap-navwalker' ) . '</a></li>';
+				$fallback_output .= '<li class="nav-item"><a class="nav-link" href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '" title="' . esc_attr__( 'Add a menu', 'cleanblog' ) . '">' . esc_html__( 'Add a menu', 'cleanblog' ) . '</a></li>';
 				$fallback_output .= '</ul>';
 				if ( $container ) {
 					$fallback_output .= '</' . esc_attr( $container ) . '>';
@@ -371,9 +371,9 @@ if ( ! class_exists( 'WP_Bootstrap_Navwalker' ) ) {
 
 				// if $args has 'echo' key and it's true echo, otherwise return.
 				if ( array_key_exists( 'echo', $args ) && $args['echo'] ) {
-					echo $fallback_output; // WPCS: XSS OK.
+					echo wp_kses_post( $fallback_output ); // WPCS: XSS OK.
 				} else {
-					return $fallback_output;
+					return wp_kses( $fallback_output );
 				}
 			}
 		}

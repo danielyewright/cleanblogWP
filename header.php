@@ -52,15 +52,15 @@
 				'container_class'   => 'collapse navbar-collapse',
 				'container_id'      => 'navbarResponsive',
 				'menu_class'        => 'navbar-nav ml-auto',
-				'fallback_cb'       => 'WP_Bootstrap_Navwalker::fallback',
-				'walker'            => new WP_Bootstrap_Navwalker(),
+				'fallback_cb'       => 'Cleanblog_WP_Bootstrap_Navwalker::fallback',
+				'walker'            => new Cleanblog_WP_Bootstrap_Navwalker(),
 			) );
 			?>
 		</div>
 	</nav>
 
 	<?php
-	if ( ! is_single() ) : 
+	if ( ! is_single() && ( is_home() || is_front_page() ) ) :
 		?>
 		<header class="masthead" style="background-image: url('<?php header_image(); ?>')">
 			<div class="overlay"></div>
@@ -76,16 +76,12 @@
 			</div>
 		</header>
 		<?php
-	endif;
-	?>
-	
-	<?php
-	if ( is_single() ) :
+
+	elseif ( is_single() ) :
 		global $post;
-		$src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), array(), false, '' );
-		$author_id = get_the_author_meta( 'ID' );
+		$cleanblog_post_thumb_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), false, '' );
 		?>
-		<header class="masthead" style="background-image: url('<?php echo $src[0]; ?>')">
+		<header class="masthead" style="background-image: url('<?php echo esc_url( $cleanblog_post_thumb_src[0], 'cleanblog' ); ?>')">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row">
@@ -101,10 +97,26 @@
 				</div>
 			</div>
 		</header>
-		<?php 
-	endif; 
-	?>
+		<?php
 
+	else :
+		$cleanblog_page_thumb_src = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), false, '' );
+		?>
+		<header class="masthead" style="background-image: url('<?php echo esc_url( $cleanblog_page_thumb_src[0], 'cleanblog' ); ?>')">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-8 col-md-10 mx-auto">
+						<div class="page-heading">
+							<h1><?php the_title(); ?></h1>
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<?php
+	endif;
+	?>
 
 	<div id="content" class="site-content container">
 		<div class="row">

@@ -1,6 +1,6 @@
 <?php
 /**
- * Bootstrap WP functions and definitions
+ * Clean Blog WP functions and definitions
  *
  * @link https://developer.wordpress.org/themes/basics/theme-functions/
  *
@@ -19,7 +19,7 @@ if ( ! function_exists( 'cleanblog_setup' ) ) :
 		/*
 		 * Make theme available for translation.
 		 * Translations can be filed in the /languages/ directory.
-		 * If you're building a theme based on Bootstrap WP, use a find and replace
+		 * If you're building a theme based on Clean Blog WP, use a find and replace
 		 * to change 'cleanblog' to the name of your theme in all the template files.
 		 */
 		load_theme_textdomain( 'cleanblog', get_template_directory() . '/languages' );
@@ -175,7 +175,7 @@ function cleanblog_content_width() {
 	// This variable is intended to be overruled from themes.
 	// Open WPCS issue: {@link https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/issues/1043}.
 	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
-	$GLOBALS['content_width'] = apply_filters( 'cleanblog_content_width', 640 );
+	$GLOBALS['cleanblog_content_width'] = apply_filters( 'cleanblog_content_width', 640 );
 }
 add_action( 'after_setup_theme', 'cleanblog_content_width', 0 );
 
@@ -197,13 +197,28 @@ function cleanblog_widgets_init() {
 }
 add_action( 'widgets_init', 'cleanblog_widgets_init' );
 
+/**
+ * Fix missing $alt and $title tag value for gravatars.
+ */
+function cleanblog_crunchify_gravatar_alt( $crunchifyGravatar ) {
+	if ( have_comments() ) {
+		$alt = get_comment_author();
+	} else {
+		$alt = get_the_author_meta( 'display_name' );
+	}
+
+	$crunchifyGravatar = str_replace( 'alt=\'\'', 'alt=\'Avatar for ' . $alt . '\' title=\'Gravatar for ' . $alt . '\'', $crunchifyGravatar );
+	return $crunchifyGravatar;
+}
+add_filter( 'get_avatar', 'cleanblog_crunchify_gravatar_alt' );
+
 function cleanblog_custom_comments_callback( $comment, $args, $depth ) {
-	$GLOBALS['comment'] = $comment;
+	$GLOBALS['cleanblog_comment'] = $comment;
 	?>
 
 	<li id="li-comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
 		<div id="comment-<?php comment_ID(); ?>" class="media comment">
-			<img src="<?php echo esc_url( get_avatar_url( $comment ) ); ?>" class="align-self-start mr-3 comment-avi" alt="<?php ?>">
+			<img src="<?php echo esc_url( get_avatar_url( $comment ) ); ?>" class="align-self-start mr-3 comment-avi">
 			<div class="media-body">
 				<h5 class="mt-0"><?php the_author(); ?></h5>
 				<div class="comment-meta">
@@ -218,7 +233,7 @@ function cleanblog_custom_comments_callback( $comment, $args, $depth ) {
 /**
  * Custom Pagination
  */
-function pagination_nav() {
+function cleanblog_pagination_nav() {
 	global $wp_query;
 	$total = $wp_query->max_num_pages;
 
@@ -235,7 +250,7 @@ function pagination_nav() {
 	wp_reset_postdata();
 }
 
-function adjacent_posts_nav() {
+function cleanblog_adjacent_posts_nav() {
 	$next_post = get_adjacent_post( true, '', false );
 	$prev_post = get_adjacent_post( true, '', true );
 	?>
@@ -245,27 +260,27 @@ function adjacent_posts_nav() {
 		if ( is_a( $prev_post , 'WP_Post' ) ) : ?>
 			<div class="col text-left">
 				<p class="lead">&mdash; Previous Post</p>
-				<a class="post-nav-prev" href="<?php echo get_permalink( $prev_post->ID ); ?>">
+				<a class="post-nav-prev" href="<?php esc_url( get_permalink( $prev_post->ID ) ); ?>">
 					<section class="post-nav-teaser">
-						<h4 class="post-nav-title"><?php echo get_the_title( $prev_post->ID ); ?></h4>
+						<h4 class="post-nav-title"><?php echo esc_html( get_the_title( $prev_post->ID ) ); ?></h4>
 					</section>
 				</a>
 			</div>
-			<?php 
-		
+			<?php
+
 		endif;
 
 		if ( is_a( $next_post, 'WP_Post' ) ) : ?>
 			<div class="col text-right">
 				<p class="lead">Next Post &mdash;</p>
-				<a class="post-nav-prev" href="<?php echo get_permalink( $next_post->ID ); ?>">
+				<a class="post-nav-prev" href="<?php esc_url( get_permalink( $next_post->ID ) ); ?>">
 					<section class="post-nav-teaser">
-						<h4 class="post-nav-title"><?php echo get_the_title( $next_post->ID ); ?></h4>
+						<h4 class="post-nav-title"><?php esc_html( get_the_title( $next_post->ID ) ); ?></h4>
 					</section>
 				</a>
 			</div>
-			<?php 
-		endif; 
+			<?php
+		endif;
 		?>
 
 		<div class="clearfix"></div>
@@ -277,27 +292,24 @@ function adjacent_posts_nav() {
 /**
  * Custom post excerpt
  */
-function new_excerpt_more( $more ) {
+function cleanblog_new_excerpt_more( $more ) {
 	return '...';
 }
-add_filter('excerpt_more', 'new_excerpt_more');
+add_filter('excerpt_more', 'cleanblog_new_excerpt_more');
 
 /**
  * Enqueue scripts and styles.
  */
 function cleanblog_scripts() {
-	// wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
-	wp_enqueue_style( 'bootstrap-css', 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
+	wp_enqueue_style( 'bootstrap-css', get_template_directory_uri() . '/css/bootstrap.min.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
 	wp_enqueue_style( 'fontawesome-css', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css', array(), wp_get_theme()->get( 'Version' ), 'all' );
 	wp_enqueue_style( 'cleanblog-style', get_stylesheet_uri(), array(), wp_get_theme()->get( 'Version' ) );
 
 	wp_style_add_data( 'cleanblog-style', 'rtl', 'replace' );
 
-	wp_deregister_script( 'jquery' );
+	// wp_deregister_script( 'jquery' );
 	// wp_register_script( 'jquery', get_template_directory_uri() . '/js/jquery-3.3.1.slim.min.js', array(), wp_get_theme()->get( 'Version' ), true );
-	wp_register_script( 'jquery', 'https://code.jquery.com/jquery-3.3.1.slim.min.js', array(), wp_get_theme()->get( 'Version' ), true );
-	// wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.bundle.min.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
-	wp_enqueue_script( 'bootstrap-js', 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
+	wp_enqueue_script( 'bootstrap-js', get_template_directory_uri() . '/js/bootstrap.bundle.min.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
 	wp_enqueue_script( 'cleanblog-scripts', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), wp_get_theme()->get( 'Version' ), true );
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

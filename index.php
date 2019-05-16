@@ -46,9 +46,9 @@ get_header();
 			?>
 
 			<div class="clearfix">
-				<?php pagination_nav(); ?>
+				<?php cleanblog_pagination_nav(); ?>
 			</div>
-			
+
 			<br>
 
 			<?php

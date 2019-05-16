@@ -21,9 +21,9 @@
 			?>
 
 			<p class="post-meta"><?php echo the_date( 'F j, Y' ) ?></p>
-			
+
 			<?php
-			
+
 			the_excerpt();
 		endif;
 		?>
